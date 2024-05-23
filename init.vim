@@ -506,12 +506,11 @@ let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " silent! color deus
 " silent! color dracula
 " colorscheme dracula
-"
-colorscheme tokyonight-night
 
+Plug 'ghifarit53/tokyonight-vim'
 
-" Vim Script
-let g:lightline = {'colorscheme': 'tokyonight'}
+colorscheme dracula
+
 
 hi NonText ctermfg=gray guifg=grey10
 "hi SpecialKey ctermfg=blue guifg=grey70
