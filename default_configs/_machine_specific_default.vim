@@ -2,8 +2,8 @@
 
 let g:snips_author = 'Paris'
 
-let g:python_host_prog='/Users/paris/.pyenv/versions/2.7.18/bin/python2'
-let g:python3_host_prog='/usr/bin/python3'
+" let g:python_host_prog='/Users/paris/.pyenv/versions/2.7.18/bin/python2'
+let g:python3_host_prog='/opt/homebrew/bin/python3'
 
 let g:mkdp_browser = 'chromium'
 " let g:mkdp_browserfunc = 'open '

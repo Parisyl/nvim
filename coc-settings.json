@@ -95,8 +95,9 @@
 	"typescript.suggestionActions.enabled": true,
 	"typescript.format.enabled": true,
 	"jest.watch": false,
-	"explorer.width": 38,
-	"explorer.quitOnOpen": true,
+	"explorer.width": 30,
+	"explorer.toggle": false,
+	"explorer.quitOnOpen": false,
 	"explorer.sources": [
 		{
 			"name": "buffer",
@@ -107,6 +108,9 @@
 			"expand": true
 		}
 	],
+	"explorer.openAction.relativePath": true,
+	"explorer.file.reveal.auto": true,
+	"explorer.position": "left",
 	"explorer.file.column.indent.indentLine": true,
 	"explorer.file.showHiddenFiles": true,
 	"explorer.icon.enableNerdfont": true,
@@ -252,5 +256,6 @@
 				}
 			}
 		}
-	}
+	},
+	"snippets.ultisnips.pythonPrompt": false
 }

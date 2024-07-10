@@ -38,7 +38,6 @@ let &t_ut=''
 set autochdir
 set exrc
 set secure
-set number
 set relativenumber
 set cursorline
 set noexpandtab
@@ -83,7 +82,6 @@ set updatetime=100
 set virtualedit=block
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
 
 " ==================== Terminal Behaviors ====================
 let g:neoterm_autoscroll = 1
@@ -156,6 +154,7 @@ noremap h e
 " Ctrl + U or E will move up/down the view port without moving the cursor
 noremap <C-U> 5<C-y>
 noremap <C-E> 5<C-e>
+
 " Custom cursor movement
 source $HOME/.config/nvim/cursor.vim
 " If you use Qwerty keyboard, uncomment the next line.
@@ -315,6 +314,8 @@ endfunc
 " ==================== Install Plugins with Vim-Plug ====================
 call plug#begin('$HOME/.config/nvim/plugged')
 
+Plug 'nvim-tree/nvim-tree.lua'
+
 Plug 'itchyny/vim-cursorword'
 
 " Github Copilot
@@ -325,8 +326,8 @@ Plug 'nvim-treesitter/nvim-treesitter'
 Plug 'nvim-treesitter/playground'
 
 " Pretty Dress
-" Plug 'theniceboy/nvim-deus'
-" Plug 'arzg/vim-colors-xcode'
+Plug 'theniceboy/nvim-deus'
+Plug 'arzg/vim-colors-xcode'
 Plug 'Mofiqul/dracula.nvim'
 
 " Status line
@@ -344,6 +345,9 @@ Plug 'theniceboy/joshuto.nvim'
 Plug 'kevinhwang91/rnvimr'
 Plug 'airblade/vim-rooter'
 Plug 'pechorin/any-jump.vim'
+
+Plug 'yardnsm/vim-import-cost', { 'do': 'npm install --production' }
+
 
 " Debugger
 " Plug 'puremourning/vimspector', {'do': './install_gadget.py --enable-c --enable-python --enable-go'}
@@ -369,9 +373,13 @@ Plug 'cohama/agit.vim'
 Plug 'kdheepak/lazygit.nvim'
 
 " post install (yarn install | npm install) then load plugin only for editing supported files
-Plug 'prettier/vim-prettier', {
-  \ 'do': 'yarn install --frozen-lockfile --production',
-  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+" Plug 'prettier/vim-prettier', {
+"  \ 'do': 'yarn install --frozen-lockfile --production',
+"  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'svelte', 'yaml', 'html'] }
+
+" post install (yarn install | npm install) then load plugin only for editing supported files
+Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
+
 
 " Tex
 " Plug 'lervag/vimtex'
@@ -385,7 +393,7 @@ Plug 'elzr/vim-json'
 Plug 'neoclide/jsonc.vim'
 Plug 'othree/html5.vim'
 Plug 'alvan/vim-closetag'
-" Plug 'hail2u/vim-css3-syntax' " , { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
+Plug 'hail2u/vim-css3-syntax' " , { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 " Plug 'spf13/PIV', { 'for' :['php', 'vim-plug'] }
 " Plug 'pangloss/vim-javascript', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 Plug 'yuezk/vim-js', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
@@ -393,7 +401,7 @@ Plug 'yuezk/vim-js', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', '
 " Plug 'jelera/vim-javascript-syntax', { 'for': ['vim-plug', 'php', 'html', 'javascript', 'css', 'less'] }
 "Plug 'jaxbot/browserlink.vim'
 Plug 'HerringtonDarkholme/yats.vim'
-" Plug 'posva/vim-vue'
+Plug 'posva/vim-vue'
 " Plug 'evanleck/vim-svelte', {'branch': 'main'}
 " Plug 'leafOfTree/vim-svelte-plugin'
 " Plug 'leafgarland/typescript-vim'
@@ -468,10 +476,15 @@ Plug 'reedes/vim-wordy'
 " Bookmarks
 " Plug 'MattesGroeger/vim-bookmarks'
 
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 " Find & Replace
 Plug 'nvim-lua/plenary.nvim' " nvim-spectre dep
+"
+Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-pack/nvim-spectre'
-
+"
+"
 " Documentation
 " Plug 'KabbAmine/zeavim.vim' " <LEADER>z to find doc
 
@@ -495,6 +508,10 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'lambdalisue/suda.vim' " do stuff like :sudowrite
 " Plug 'makerj/vim-pdf'
 
+Plug 'ghifarit53/tokyonight-vim'
+
+Plug 'arzg/vim-colors-xcode'
+
 call plug#end()
 
 set re=0
@@ -505,12 +522,9 @@ set termguicolors " enable true colors support
 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
 " silent! color deus
 " silent! color dracula
-" colorscheme dracula
-
-Plug 'ghifarit53/tokyonight-vim'
-
 colorscheme dracula
-
+" colorscheme tokyonight
+" colorscheme xcode
 
 hi NonText ctermfg=gray guifg=grey10
 "hi SpecialKey ctermfg=blue guifg=grey70
@@ -542,9 +556,11 @@ nnoremap <LEADER>gb :Gitsigns blame_line<CR>
 nnoremap <LEADER>g- :Gitsigns prev_hunk<CR>
 nnoremap <LEADER>g= :Gitsigns next_hunk<CR>
 
-
 " ==================== coc.nvim ====================
 let g:coc_global_extensions = [
+	\ 'coc-stylelint',
+	\ 'coc-tsserver',
+  \ 'coc-tailwindcss',
 	\ 'coc-css',
 	\ 'coc-diagnostic',
 	\ 'coc-docker',
@@ -562,14 +578,12 @@ let g:coc_global_extensions = [
 	\ 'coc-prettier',
 	\ 'coc-prisma',
 	\ 'coc-pyright',
+  \ 'coc-tailwindcss',
 	\ 'coc-snippets',
 	\ 'coc-sourcekit',
-	\ 'coc-stylelint',
 	\ 'coc-syntax',
-	\ 'coc-tailwindcss',
 	\ 'coc-tasks',
 	\ 'coc-translator',
-	\ 'coc-tsserver',
 	\ 'coc-vetur',
 	\ 'coc-vimlsp',
 	\ 'coc-yaml',
@@ -579,6 +593,10 @@ inoremap <silent><expr> <TAB>
       \ CheckBackspace() ? "\<Tab>" :
       \ coc#refresh()
 inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
+
+" Open coc-explorer and make it stay on the left side
+nnoremap <silent> tt :CocCommand explorer --toggle<CR>
+
 
 " Make <CR> to accept selected completion item or notify coc.nvim to format
 " <C-g>u breaks current undo, please make your own choice.
@@ -626,7 +644,7 @@ nmap <silent> gy <Plug>(coc-type-definition)
 " nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
 nmap <leader>rn <Plug>(coc-rename)
-nmap tt :CocCommand explorer<CR>
+" nmap tt :CocCommand explorer<CR>
 " coc-translator
 nmap ts <Plug>(coc-translator-p)
 " Remap for do codeAction of selected region
@@ -1264,9 +1282,7 @@ let g:joshuto_use_neovim_remote = 1 " for neovim-remote support
 " ==================== Necessary Commands to Execute ====================
 exec "nohlsearch"
 
-
 " Open the _machine_specific.vim file if it has just been created
 if has_machine_specific_file == 0
 	exec "e ~/.config/nvim/_machine_specific.vim"
 endif
-
